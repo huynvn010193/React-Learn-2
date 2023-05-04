@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 
 const initialAddress = () => {
-  console.log('initialAddress');
+  console.log("initialAddress");
   return {
-    nation: 'Vietnam',
+    nation: "Vietnam",
     city: {
-      street: '200 Dien Bien Phu',
-      house: 'Building',
+      street: "200 Dien Bien Phu",
+      house: "Building",
     },
   };
 };
@@ -18,10 +18,10 @@ const getAddress = () => {
   return new Promise((resolve) => {
     setTimeout(() => {
       resolve({
-        nation: 'USA',
+        nation: "USA",
         city: {
-          street: '100 Nicolas, NY',
-          house: 'Building',
+          street: "100 Nicolas, NY",
+          house: "Building",
         },
       });
     }, 3000);
@@ -29,7 +29,7 @@ const getAddress = () => {
 };
 
 export default function User() {
-  const [firstName, setFirstName] = useState('Alex');
+  const [firstName, setFirstName] = useState("Alex");
   const [age, setAge] = useState(24);
   const [, forceRerender] = useState(0);
   const [address, setAddress] = useState(initialAddress);
@@ -39,6 +39,7 @@ export default function User() {
 
   // ép component re-render
   const rerender = () => forceRerender((prevState) => prevState + 1);
+  const profile = {};
 
   const changeStreet = () => {
     // setAddress({
@@ -49,7 +50,7 @@ export default function User() {
 
     setAddress((prevAddress) => {
       const newCity = { ...prevAddress.city };
-      newCity.street = '100 Dien Bien Phu';
+      newCity.street = "100 Dien Bien Phu";
       return {
         ...prevAddress,
         city: newCity,
@@ -57,7 +58,7 @@ export default function User() {
     });
   };
 
-  console.log('Re-render');
+  console.log("Re-render");
 
   // Giống componnetDidUpdate, effect function chạy lại mỗi khi component rerender
   // useEffect(() => {
@@ -66,11 +67,30 @@ export default function User() {
 
   useEffect(() => {
     // Dùng call API
-    console.log('useEffect giống componentDidMount');
+    console.log("useEffect giống componentDidMount");
+    // getAddress().then((res) => {
+    //   setAddress(res);
+    // });
     getAddress().then((res) => {
-      setAddress(res);
+      setAddress((prevAddress) => {
+        const newAddress = { ...prevAddress };
+        newAddress.city = res.city;
+        return newAddress;
+      });
     });
+
+    // clean up function
+    return () => {
+      console.log("Hủy call API");
+    };
   }, []);
+
+  useEffect(() => {
+    console.log("age", age);
+    return () => {
+      console.log("Clean Age");
+    };
+  }, [age]);
 
   return (
     <div>
