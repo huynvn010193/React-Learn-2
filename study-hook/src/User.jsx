@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 const initialAddress = () => {
   console.log('initialAddress');
@@ -12,6 +12,21 @@ const initialAddress = () => {
 };
 
 // truyền initialAddress -> truyền function. initialAddress() => Gọi funciton
+
+// return 1 promise: thì Promise này 3s sau mới resolve
+const getAddress = () => {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve({
+        nation: 'USA',
+        city: {
+          street: '100 Nicolas, NY',
+          house: 'Building',
+        },
+      });
+    }, 3000);
+  });
+};
 
 export default function User() {
   const [firstName, setFirstName] = useState('Alex');
@@ -43,6 +58,19 @@ export default function User() {
   };
 
   console.log('Re-render');
+
+  // Giống componnetDidUpdate, effect function chạy lại mỗi khi component rerender
+  // useEffect(() => {
+  //   console.log('useEffect giống componentDidUpdate');
+  // });
+
+  useEffect(() => {
+    // Dùng call API
+    console.log('useEffect giống componentDidMount');
+    getAddress().then((res) => {
+      setAddress(res);
+    });
+  }, []);
 
   return (
     <div>
