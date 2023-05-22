@@ -1,8 +1,10 @@
 import { useState } from "react";
 import "./App.css";
-import User from "./User";
-import AutoBatching from "./AutoBatching";
-import RuleOfHook from "./ruleOfHook";
+import Cart from "./Header/Cart";
+import Navigation from "./Header/Navigation";
+// import User from "./User";
+// import AutoBatching from "./AutoBatching";
+// import RuleOfHook from "./ruleOfHook";
 
 function App() {
   const [isShow, setIsShow] = useState(true);
@@ -15,7 +17,9 @@ function App() {
       </button> */}
 
       {/* <AutoBatching /> */}
-      <RuleOfHook />
+      {/* <RuleOfHook /> */}
+      <Cart />
+      <Navigation />
     </div>
   );
 }
