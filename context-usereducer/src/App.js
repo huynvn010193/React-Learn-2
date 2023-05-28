@@ -5,17 +5,23 @@ function App() {
   const [state, dispatch] = useStore();
   const { todos, todoInput } = state;
 
-  console.log(todoInput, todos);
+  const handleAdd = () => {
+    dispatch(actions.addTodo(todoInput));
+  };
 
   return (
     <div>
       <input
         value={todoInput}
-        placeholder='Enter  to do'
+        placeholder="Enter  to do"
         onChange={(e) => {
           dispatch(actions.setTodoInput(e.target.value));
         }}
       />
+      <button onClick={handleAdd}>Add</button>
+      {todos.map((todo, index) => (
+        <li key={index}>{todo}</li>
+      ))}
     </div>
   );
 }
