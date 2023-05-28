@@ -1,12 +1,21 @@
 import "./App.css";
-import { useStore } from "./store";
+import { useStore, actions } from "./store";
 
 function App() {
   const [state, dispatch] = useStore();
-  const { totos, todoInput } = state;
+  const { todos, todoInput } = state;
+
+  console.log(todoInput, todos);
+
   return (
     <div>
-      <input value={state.todoInput} placeholder="Enter  to do" />
+      <input
+        value={todoInput}
+        placeholder='Enter  to do'
+        onChange={(e) => {
+          dispatch(actions.setTodoInput(e.target.value));
+        }}
+      />
     </div>
   );
 }
