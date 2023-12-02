@@ -7,7 +7,7 @@ export default function KanbanBoard() {
   const [incomplete, setIncomplete] = useState([]);
 
   useEffect(() => {
-    fetch('https://jsonplaceholder.typicode.com/todos')
+    fetch('https://jsonplaceholder.typicode.com/todos?_limit=10')
       .then((response) => response.json())
       .then((json) => {
         setCompleted(json.filter((task) => task.completed));
@@ -24,7 +24,7 @@ export default function KanbanBoard() {
 
     if (source.droppableId == 2) {
       setCompleted(removeItemById(draggableId, completed));
-    } else {
+    } else if (source.droppableId == 1) {
       setIncomplete(removeItemById(draggableId, incomplete));
     }
 
@@ -35,7 +35,7 @@ export default function KanbanBoard() {
     //ADD ITEM
     if (destination.droppableId == 2) {
       setCompleted([{ ...task, completed: !task.completed }, ...completed]);
-    } else {
+    } else if (destination.droppableId == 1) {
       setIncomplete([{ ...task, completed: !task.completed }, ...incomplete]);
     }
   };
