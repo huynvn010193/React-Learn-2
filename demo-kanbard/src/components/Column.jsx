@@ -29,9 +29,9 @@ const TaskList = styled.div`
   min-height: 100px;
 `;
 
-export default function Column({ title, tasks, id }) {
+export default function Column({ title, tasks, id, isDropDisabled = false }) {
   return (
-    <Container className='column'>
+    <Container className="column">
       <Title
         style={{
           backgroundColor: 'lightblue',
@@ -40,7 +40,7 @@ export default function Column({ title, tasks, id }) {
       >
         {title}
       </Title>
-      <Droppable droppableId={id}>
+      <Droppable droppableId={id} isDropDisabled={isDropDisabled}>
         {(provided, snapshot) => (
           <TaskList
             ref={provided.innerRef}
