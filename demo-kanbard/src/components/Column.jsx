@@ -3,6 +3,7 @@ import { Droppable } from 'react-beautiful-dnd';
 import styled from 'styled-components';
 import './scroll.css';
 import Task from './Task';
+import { colors } from '@atlaskit/theme';
 
 const Container = styled.div`
   background-color: #f4f5f7;
@@ -24,10 +25,21 @@ const Title = styled.h3`
 const TaskList = styled.div`
   padding: 3px;
   transistion: background-color 0.2s ease;
-  background-color: #f4f5f7;
+  background-color: ${({ isDraggingOver, isDraggingFrom }) =>
+    getBackgroundColor(isDraggingOver, isDraggingFrom)};
   flex-grow: 1;
   min-height: 100px;
 `;
+
+const getBackgroundColor = (isDraggingOver, isDraggingFrom) => {
+  if (isDraggingOver) {
+    return colors.R50;
+  }
+  if (isDraggingFrom) {
+    return colors.T50;
+  }
+  return colors.N30;
+};
 
 export default function Column({ title, tasks, id, isDropDisabled = false }) {
   return (
@@ -46,6 +58,7 @@ export default function Column({ title, tasks, id, isDropDisabled = false }) {
             ref={provided.innerRef}
             {...provided.droppableProps}
             isDraggingOver={snapshot.isDraggingOver}
+            isDraggingFrom={Boolean(snapshot.draggingFromThisWith)}
           >
             {tasks.map((task, index) => (
               <Task key={index} index={index} task={task} />
