@@ -16,25 +16,25 @@ const Form = () => {
   // const [filterText, setFilterText] = useState("");
   // const [isPeding, startTransition] = useTransition();
 
-  const deferedValue = useDeferredValue(searchInput);
+  // const deferedValue = useDeferredValue(searchInput);
 
   // dùng useMemo để ghi nhớ lại giá trị của nó
   const data = useMemo(() => {
     return studentListData.map((student) => {
-      const index = student.indexOf(deferedValue);
+      const index = student.indexOf(searchInput);
       return index === -1 ? (
         <p>{student}</p>
       ) : (
         <p>
           {student.slice(0, index)}
           <span style={{ backgroundColor: "yellow" }}>
-            {student.slice(index, index + deferedValue.length)}
+            {student.slice(index, index + searchInput.length)}
           </span>
-          {student.slice(index + deferedValue.length)}
+          {student.slice(index + searchInput.length)}
         </p>
       );
     });
-  }, [deferedValue]);
+  }, [searchInput]);
 
   const handleSearchInputChange = (e) => {
     setSearchInput(e.target.value);

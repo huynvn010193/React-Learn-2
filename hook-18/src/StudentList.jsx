@@ -1,11 +1,12 @@
-import React from "react";
+import React, { useDeferredValue } from "react";
 
 const StudentList = ({ data }) => {
+  const deferedValue = useDeferredValue(data);
   return (
     <>
       <div>StudentList</div>
       <div>
-        {data.map((student) => (
+        {deferedValue.map((student) => (
           <p>{student}</p>
         ))}
       </div>
