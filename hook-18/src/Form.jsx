@@ -1,4 +1,10 @@
-import React, { useId, useMemo, useState, useTransition } from "react";
+import React, {
+  useDeferredValue,
+  useId,
+  useMemo,
+  useState,
+  useTransition,
+} from "react";
 import StudentList from "./StudentList";
 import studentListData from "./mocks/studentList.json";
 
@@ -6,32 +12,35 @@ const Form = () => {
   // useId():
   const id = useId();
   const [searchInput, setSearchInput] = useState("");
-  const [filterText, setFilterText] = useState("");
-  const [isPeding, startTransition] = useTransition();
+
+  // const [filterText, setFilterText] = useState("");
+  // const [isPeding, startTransition] = useTransition();
+
+  const deferedValue = useDeferredValue(searchInput);
 
   // dùng useMemo để ghi nhớ lại giá trị của nó
   const data = useMemo(() => {
     return studentListData.map((student) => {
-      const index = student.indexOf(filterText);
+      const index = student.indexOf(deferedValue);
       return index === -1 ? (
         <p>{student}</p>
       ) : (
         <p>
           {student.slice(0, index)}
           <span style={{ backgroundColor: "yellow" }}>
-            {student.slice(index, index + filterText.length)}
+            {student.slice(index, index + deferedValue.length)}
           </span>
-          {student.slice(index + filterText.length)}
+          {student.slice(index + deferedValue.length)}
         </p>
       );
     });
-  }, [filterText]);
+  }, [deferedValue]);
 
   const handleSearchInputChange = (e) => {
     setSearchInput(e.target.value);
-    startTransition(() => {
-      setFilterText(e.target.value);
-    });
+    // startTransition(() => {
+    //   setFilterText(e.target.value);
+    // });
   };
 
   return (
@@ -45,7 +54,8 @@ const Form = () => {
         value={searchInput}
         onChange={handleSearchInputChange}
       />
-      {isPeding ? <p>Loading...</p> : <StudentList data={data} />}
+      {/* {isPeding ? <p>Loading...</p> : <StudentList data={data} />} */}
+      <StudentList data={data} />
     </>
   );
 };
